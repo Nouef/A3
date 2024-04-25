@@ -36,3 +36,30 @@ if target_post:
                    headers=["Datetime", "Content", "Author", "Views"]))
 else:
     print("Post not found for the specified datetime.")
+# Part 2: Using a binary search tree to find posts in a specific time range
+class BSTNode:
+  def __init__(self, post):
+      self.post = post    # The post stored in the node
+      self.left = None    # Reference to the left child node
+      self.right = None   # Reference to the right child node
+
+class PostBST:
+  def __init__(self):
+      self.root = None # Initialize the root of the binary search tree
+
+  def insert(self, post):
+      if not self.root:
+          self.root = BSTNode(post) # If tree is empty set new node as root
+      else:
+          self._insert_helper(post, self.root)
+
+  def _insert_helper(self, post, node):
+    # Helper function to recursively insert a post into the tree
+    if post.datetime < node.post.datetime:
+        if node.left:
+            self._insert_helper(post, node.left)  # If datetime is smaller, go left
+        else:
+            node.left = BSTNode(post)  # If left child is None, insert new node here
+    else:
+        if node.right:
+            self._insert_helper(post, node.right)  # If datetime is greater, go right
