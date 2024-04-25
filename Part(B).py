@@ -31,6 +31,71 @@ def deliver_packages(graph, start):
     # Return the paths and costs of delivery for all houses
     return delivery_paths
 
+# Function to run test cases
+def test_cases(graph):
+    # Define starting nodes for the delivery tests
+    tests = ['1', '6', '14']
+    # Iterate through each test case
+    for test in tests:
+        print(f"Starting delivery from intersection: {test}")
+        # Get the delivery paths for the current test case
+        delivery_paths = deliver_packages(graph, test)
+        # Print out the delivery details for each house
+        for house, (path, cost) in delivery_paths.items():
+            print(f"Delivered to {house}: Path taken: {' -> '.join(path)}, Total distance: {cost}")
+        # Print a separator for readability between test cases
+        print("\n" + "="*50 + "\n")
+
+# Main function to set up the graph and initiate the test cases
+def main():
+    # Define the graph with nodes and weighted edges
+    graph = {
+        '1': {'2': 200},
+        '2': {'1': 200, '7': 100, '8': 150},
+        '7': {'2': 100, 'H1': 80, 'H2': 80, '11': 150},
+        'H1': {'7': 80},
+        'H2': {'7': 80},
+        '8': {'2': 150, 'H16': 80, 'H17': 80, '3': 100, '12': 140, '11': 170},
+        'H16': {'8': 80},
+        'H17': {'8': 80},
+        '3': {'8': 100, '9': 150},
+        '9': {'3': 150, '4': 100, 'H19': 80, 'H18': 80, '13': 160, '12': 170},
+        'H18': {'9': 80},
+        'H19': {'9': 80},
+        '4': {'9': 100, 'H20': 80, '10': 160},
+        'H20': {'4': 80},
+        '10': {'4': 160, '6': 100, 'H15': 80, 'H14': 80, 'H13': 80, '14': 100, '13': 160},
+        'H13': {'10': 80},
+        'H14': {'10': 80},
+        'H15': {'10': 80},
+        '6': {'10': 100},
+        '11': {'7': 150, '8': 170, 'H3': 80, 'H4': 80, 'H5': 80, 'H6': 80, '12': 50, '15': 250},
+        'H3': {'11': 80},
+        'H4': {'11': 80},
+        'H5': {'11': 80},
+        'H6': {'11': 80},
+        '12': {'8': 140, '9': 170, '11': 50, '13': 60},
+        '13': {'9': 160, '10': 160, '12': 60, 'H21': 80, 'H22': 80, '14': 90},
+        'H21': {'13': 80},
+        'H22': {'13': 80},
+        '14': {'10': 100, '13': 90, '15': 100, 'H10': 80, 'H11': 80, 'H12': 80},
+        'H10': {'14': 80},
+        'H11': {'14': 80},
+        'H12': {'14': 80},
+        '15': {'11': 250, '14': 100, 'H7': 80, 'H8': 80, 'H9': 80},
+        'H7': {'15': 80},
+        'H8': {'15': 80},
+        'H9': {'15': 80},
+    }
+
+    # Run the test cases with the defined graph
+    test_cases(graph)
+
+if __name__ == "__main__":
+    main()
+
+
+
     
 
 
