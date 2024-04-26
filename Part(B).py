@@ -115,3 +115,25 @@ def dijkstra_shortest_path(graph, start, end):
     # Set to track visited nodes to prevent re-processing
     visited = set()
 
+ while queue:
+        # Extract the node with the smallest distance from the queue
+        current_distance, current_node, path = heapq.heappop(queue)
+        if current_node not in visited:
+            visited.add(current_node)
+            path = path + [current_node]
+            
+            # Return the path and distance if the end node is reached
+            if current_node == end:
+                return path, current_distance
+            
+            # Explore each adjacent node
+            for neighbor, distance in graph[current_node].items():
+                if neighbor not in visited:
+                    new_distance = current_distance + distance
+                    # Only consider this new path if it's better than any previously found path to the neighbor
+                    if new_distance < distances[neighbor]:
+                        distances[neighbor] = new_distance
+                        heapq.heappush(queue, (new_distance, neighbor, path))
+    
+    # If the end node is not reachable, return an empty path and infinite distance
+    return [], float('infinity')
