@@ -92,3 +92,27 @@ print(tabulate([[post.datetime, post.content, post.author, post.views]
                 for post in posts_in_range], 
                headers=["Datetime", "Content", "Author", "Views"]))
 print()
+# Part 3: Using a max heap to prioritize posts by number of views
+import heapq
+
+class PostHeap:
+  def __init__(self):
+      self.heap = []  # Max heap to store posts by views
+
+  def add_post(self, post):
+      heapq.heappush(self.heap, (-post.views, post)) # Add post to the max heap based on views
+
+  def get_most_viewed_post(self):
+      if self.heap:
+          return self.heap[0][1] # Return the post with the most views
+
+# Test cases for Part 3
+max_heap = PostHeap()
+max_heap.add_post(post1)
+max_heap.add_post(post2)
+max_heap.add_post(post3)
+max_heap.add_post(post4)
+most_viewed_post = max_heap.get_most_viewed_post()
+print("Most viewed post:")
+print(tabulate([[most_viewed_post.datetime, most_viewed_post.content, most_viewed_post.author, most_viewed_post.views]], 
+               headers=["Datetime", "Content", "Author", "Views"]))
