@@ -69,3 +69,26 @@ class PostBST:
       posts_in_range = [] # Initialize list to store posts within the specified range
       self._find_posts_in_range_helper(start_datetime, end_datetime, self.root, posts_in_range)
       return posts_in_range
+  def _find_posts_in_range_helper(self, start, end, node, result):
+    # Helper function to recursively find posts within a specified range
+    if not node:
+        return  # Base case: If node is None, return
+    if start <= node.post.datetime <= end:
+        result.append(node.post)  # If post datetime falls within the range, append to result list
+    if start < node.post.datetime:
+        self._find_posts_in_range_helper(start, end, node.left, result)  # Search left subtree
+    if end > node.post.datetime:
+        self._find_posts_in_range_helper(start, end, node.right, result)  # Search right subtree
+
+# Test cases for Part 2
+bst = PostBST()
+bst.insert(post1)
+bst.insert(post2)
+bst.insert(post3)
+bst.insert(post4)
+posts_in_range = bst.find_posts_in_range("2024-04-18 10:00:00", "2024-04-18 12:00:00")
+print("\nPosts within time range:")
+print(tabulate([[post.datetime, post.content, post.author, post.views] 
+                for post in posts_in_range], 
+               headers=["Datetime", "Content", "Author", "Views"]))
+print()
