@@ -99,26 +99,19 @@ if __name__ == "__main__":
     
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Requirement 3 :Shortest Path Algorithm for Point A to Point B (Dijkstra's algorithm/ priority queue (min-heap))
+
+import heapq  # Import the heapq library to use the priority queue 
+
+def dijkstra_shortest_path(graph, start, end):
+    """
+    Implements Dijkstra's algorithm to find the shortest path from 'start' to 'end' in a weighted graph.
+      """
+    # Priority queue to store nodes during the exploration, with initial node having 0 distance
+    queue = [(0, start, [])]
+    # Distance dictionary, initialized with infinity for all nodes except the start node
+    distances = {node: float('infinity') for node in graph}
+    distances[start] = 0
+    # Set to track visited nodes to prevent re-processing
+    visited = set()
+
