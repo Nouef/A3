@@ -36,6 +36,7 @@ if target_post:
                    headers=["Datetime", "Content", "Author", "Views"]))
 else:
     print("Post not found for the specified datetime.")
+
 # Part 2: Using a binary search tree to find posts in a specific time range
 class BSTNode:
   def __init__(self, post):
@@ -63,12 +64,14 @@ class PostBST:
     else:
         if node.right:
             self._insert_helper(post, node.right)  # If datetime is greater, go right
+        else:
             node.right = BSTNode(post)  # If right child is None, insert new node here
 
   def find_posts_in_range(self, start_datetime, end_datetime):
       posts_in_range = [] # Initialize list to store posts within the specified range
       self._find_posts_in_range_helper(start_datetime, end_datetime, self.root, posts_in_range)
       return posts_in_range
+
   def _find_posts_in_range_helper(self, start, end, node, result):
     # Helper function to recursively find posts within a specified range
     if not node:
@@ -92,6 +95,8 @@ print(tabulate([[post.datetime, post.content, post.author, post.views]
                 for post in posts_in_range], 
                headers=["Datetime", "Content", "Author", "Views"]))
 print()
+
+
 # Part 3: Using a max heap to prioritize posts by number of views
 import heapq
 
