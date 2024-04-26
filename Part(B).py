@@ -182,3 +182,20 @@ def main():
         'H9': {'15': 80},
     }
 
+     # Define test cases with start and end points
+    test_cases = [
+        ('1', '15', "Test Case 1: From Intersection 1 to Intersection 15"),
+        ('2', 'H20', "Test Case 2: From Intersection 2 to House H20"),
+        ('7', 'H10', "Test Case 3: From Intersection 7 to House H10")
+    ]
+    
+    # Run each test case using Dijkstra's algorithm
+    for start, end, description in test_cases:
+        print(description)
+        path, distance = dijkstra_shortest_path(graph, start, end)
+        print(f"Shortest path: {' -> '.join(path)}, Distance: {distance} meters.\n")
+
+if __name__ == '__main__':
+    main()
+
+
