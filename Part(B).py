@@ -1,4 +1,4 @@
-# Requirement 2 : Package Distribution Algorithm (Best-First Search /priority queue (min-heap) )
+# Requirement 2 : Package Distribution Algorithm (Breadth First Search /priority queue (min-heap) )
 import heapq # Import the heapq library to use the priority queue 
 
 # Function to deliver packages using Best-First Search
@@ -11,14 +11,14 @@ def deliver_packages(graph, start):
     delivery_paths = {}
 # Process nodes until there are no more or all houses have received packages
     while queue:
-        # Get the node with the smallest cost so far
-        cost, current_node, path = heapq.heappop(queue)
+        # Pop the node with the smallest depth
+        depth, current_node, path = heapq.heappop(queue)
         # Check if the current node is a house and not yet visited
         if current_node.startswith('H') and current_node not in delivered_to:
             # Deliver package and add to delivered houses
             delivered_to.add(current_node)
             # Record the delivery path and cost for this house
-            delivery_paths[current_node] = (path + [current_node], cost)
+            delivery_paths[current_node] = (path + [current_node], depth)
         # If all houses are delivered, break out of the loop
         if len(delivered_to) == len([node for node in graph if node.startswith('H')]):
             break
@@ -26,7 +26,7 @@ def deliver_packages(graph, start):
         for neighbor, weight in graph[current_node].items():
             # Add the neighbor to the queue if it is not delivered to or is an intersection
             if neighbor not in delivered_to or not neighbor.startswith('H'):
-                heapq.heappush(queue, (cost + weight, neighbor, path + [current_node]))
+                heapq.heappush(queue, (depth + 1, neighbor, path + [current_node]))
 
     # Return the paths and costs of delivery for all houses
     return delivery_paths
@@ -41,8 +41,8 @@ def test_cases(graph):
         # Get the delivery paths for the current test case
         delivery_paths = deliver_packages(graph, test)
         # Print out the delivery details for each house
-        for house, (path, cost) in delivery_paths.items():
-            print(f"Delivered to {house}: Path taken: {' -> '.join(path)}, Total distance: {cost}")
+        for house, (path, depth) in delivery_paths.items():
+            print(f"Delivered to {house}: Path taken: {' -> '.join(path)}, Total distance: {depth}")
         # Print a separator for readability between test cases
         print("\n" + "="*50 + "\n")
 
