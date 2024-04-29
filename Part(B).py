@@ -1,24 +1,26 @@
-# Requirement 2 : Package Distribution Algorithm (Breadth First Search /priority queue (min-heap) )
-import heapq # Import the heapq library to use the priority queue 
+# Requirement 2 : Package Distribution Algorithm (Breadth First Search / queue )
+import queue  # Import the queue library for using a FIFO queue
 
-# Function to deliver packages using Best-First Search
+# Function to deliver packages using Breadth First Search
 def deliver_packages(graph, start):
-    # Priority queue to hold the nodes to be visited along with the current cost
-    queue = [(0, start, [])]  # The queue will also store the path taken
+    # FIFO queue to hold the nodes to be visited along with the current depth and total distance
+    q = queue.Queue()
+    q.put((0, start, [], 0))  # The queue will also store the path taken and total distance
     # Set to keep track of visited houses to prevent re-delivering
     delivered_to = set()
-    # Dictionary to store the delivery paths for each house
+    # Dictionary to store the delivery paths and distances for each house
     delivery_paths = {}
-# Process nodes until there are no more or all houses have received packages
-    while queue:
-        # Pop the node with the smallest depth
-        depth, current_node, path = heapq.heappop(queue)
+
+    # Process nodes until there are no more or all houses have received packages
+    while not q.empty():
+        # Dequeue the node with the smallest depth and accumulate distance
+        depth, current_node, path, total_distance = q.get()
         # Check if the current node is a house and not yet visited
         if current_node.startswith('H') and current_node not in delivered_to:
             # Deliver package and add to delivered houses
             delivered_to.add(current_node)
             # Record the delivery path and cost for this house
-            delivery_paths[current_node] = (path + [current_node], depth)
+            delivery_paths[current_node] = (path + [current_node], depth, total_distance)
         # If all houses are delivered, break out of the loop
         if len(delivered_to) == len([node for node in graph if node.startswith('H')]):
             break
@@ -26,9 +28,9 @@ def deliver_packages(graph, start):
         for neighbor, weight in graph[current_node].items():
             # Add the neighbor to the queue if it is not delivered to or is an intersection
             if neighbor not in delivered_to or not neighbor.startswith('H'):
-                heapq.heappush(queue, (depth + 1, neighbor, path + [current_node]))
+                q.put((depth + 1, neighbor, path + [current_node], total_distance + weight))
 
-    # Return the paths and costs of delivery for all houses
+    # Return the paths, depths, and distances of delivery for all houses
     return delivery_paths
 
 # Function to run test cases
@@ -41,8 +43,8 @@ def test_cases(graph):
         # Get the delivery paths for the current test case
         delivery_paths = deliver_packages(graph, test)
         # Print out the delivery details for each house
-        for house, (path, depth) in delivery_paths.items():
-            print(f"Delivered to {house}: Path taken: {' -> '.join(path)}, Total distance: {depth}")
+        for house, (path, depth, total_distance) in delivery_paths.items():
+            print(f"Delivered to {house}: Path taken: {' -> '.join(path)}, Total steps: {depth}, Total distance: {total_distance} meters")
         # Print a separator for readability between test cases
         print("\n" + "="*50 + "\n")
 
